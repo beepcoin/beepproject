@@ -1,0 +1,2 @@
+debian/bin/BeepCoind usr/bin
+src/BeepCoind usr/lib/BeepCoin

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=BeepCoin
+Comment=BeepCoin P2P Cryptocurrency
+Comment[ru]=BeepCoin, P2P криптовалюта
+Comment[fr]=BeepCoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=BeepCoin, eşten eşe kriptografik sanal para birimi
+Exec=/usr/bin/BeepCoin-qt
+Terminal=false
+Type=Application
+Icon=/usr/share/pixmaps/BeepCoin80.xpm
+MimeType=x-scheme-handler/BeepCoin;
+Categories=Office;

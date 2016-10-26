@@ -1,0 +1,68 @@
+#!/bin/sh
+
+# PROVIDE: BeepCoin
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+
+#
+# Add the following lines to /etc/rc.conf.local or /etc/rc.conf
+# to enable this service:
+#
+# BeepCoin_enable (bool): Set to NO by default. Set this variable to YES if you want to enable BeepCoin service.
+# BeepCoin_config (path): Set to /usr/local/etc/BeepCoin.conf by default.
+# BeepCoin_user:  The user account BeepCoin daemon runs as. It uses 'root' user by default.
+# BeepCoin_group: The group account BeepCoin daemon runs as. It uses 'wheel' group by default.
+# BeepCoin_datadir (str): Default to "/var/db/BeepCoin". Base data directory.
+
+. /etc/rc.subr
+
+name=BeepCoin
+rcvar=BeepCoin_enable
+
+: ${BeepCoin_enable:=NO}
+: ${BeepCoin_config=/usr/local/etc/BeepCoin.conf}
+: ${BeepCoin_datadir=/var/db/BeepCoin}
+: ${BeepCoin_user="root"}
+: ${BeepCoin_group="wheel"}
+
+required_files=${BeepCoin_config}
+command=/usr/local/bin/BeepCoind
+BeepCoin_chdir=${BeepCoin_datadir}
+pidfile="${BeepCoin_datadir}/BeepCoind.pid"
+stop_cmd=BeepCoin_stop
+command_args="-conf=${BeepCoin_config} -datadir=${BeepCoin_datadir} -daemon -pid=${pidfile}"
+start_precmd="${name}_prestart"
+
+BeepCoin_create_datadir()
+{
+	echo "Creating data directory"
+	eval mkdir -p ${BeepCoin_datadir}
+	[ $? -eq 0 ] && chown -R ${BeepCoin_user}:${BeepCoin_group} ${BeepCoin_datadir}
+}
+
+BeepCoin_prestart()
+{
+	if [ ! -d "${BeepCoin_datadir}/." ]; then
+		BeepCoin_create_datadir || return 1
+	fi
+}
+
+BeepCoin_requirepidfile()
+{
+	if [ ! "0`check_pidfile ${pidfile} ${command}`" -gt 1 ]; then
+		echo "${name} not running? (check $pidfile)."
+		exit 1
+	fi
+}
+
+BeepCoin_stop()
+{
+    BeepCoin_requirepidfile
+
+	echo "Stopping ${name}."
+	eval ${command} -conf=${BeepCoin_config} -datadir=${BeepCoin_datadir} stop
+	wait_for_pids ${rc_pid}
+}
+
+load_rc_config $name
+run_rc_command "$1"

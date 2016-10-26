@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+
+umask 077
+
+basedir=~/.BeepCoin
+dbfile="$basedir/DB_CONFIG"
+cfgfile="$basedir/BeepCoin.conf"
+
+[ -e "$basedir" ] || mkdir "$basedir"
+
+# BeepCoin does not clean up DB log files by default
+[ -e "$dbfile" ] || echo 'set_flags DB_LOG_AUTOREMOVE' > "$dbfile"
+
+exec /usr/lib/BeepCoin/BeepCoin-qt "$@"

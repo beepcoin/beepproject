@@ -1,0 +1,5 @@
+BeepCoin-qt usr/bin
+share/pixmaps/BeepCoin32.xpm usr/share/pixmaps
+share/pixmaps/BeepCoin80.xpm usr/share/pixmaps
+debian/BeepCoin-qt.desktop usr/share/applications
+debian/BeepCoin-qt.protocol usr/share/kde4/services/

@@ -1,0 +1,11 @@
+[Protocol]
+exec=BeepCoin-qt '%u'
+protocol=BeepCoin
+input=none
+output=none
+helper=true
+listing=
+reading=false
+writing=false
+makedir=false
+deleting=false

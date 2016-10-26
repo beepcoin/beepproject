@@ -1,0 +1,11 @@
+[Unit]
+Description=BeepCoin daemon serivce
+After=network.target
+
+[Service]
+Type=simple
+User=BeepCoin
+ExecStart=/opt/BeepCoin/BeepCoind
+
+[Install]
+WantedBy=multi-user.target
